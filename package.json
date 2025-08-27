@@ -1,7 +1,7 @@
 {
   "name": "location-app",
   "version": "1.0.0",
-  "description": "Simple Node server to receive geolocation",
+  "description": "Simple Node.js server to receive geolocation",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
