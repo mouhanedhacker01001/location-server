@@ -1,27 +1,32 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
+app.use(cors());
+app.use(express.json());
+
+// صفحة فحص سريعة
+app.get('/', (req, res) => {
+  res.send('🚀 Server is Live. Use /location for GET/POST.');
+});
 
 let lastLocation = null;
 
+// استلام الموقع
 app.post('/location', (req, res) => {
-  lastLocation = req.body;
-  console.log('📍 موقع جديد:', lastLocation);
-  res.send({ status: 'تم الاستقبال' });
+  lastLocation = req.body; // { latitude, longitude }
+  console.log('📍 New location:', lastLocation);
+  res.json({ status: 'ok' });
 });
 
+// إرجاع آخر موقع
 app.get('/location', (req, res) => {
-  if (lastLocation) {
-    res.send(lastLocation);
-  } else {
-    res.send({ error: 'لا يوجد موقع بعد' });
-  }
+  if (lastLocation) return res.json(lastLocation);
+  res.json({ error: 'no location yet' });
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 السيرفر شغال على http://localhost:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
